@@ -10,4 +10,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Findox.Api.CcrossCutting\Findox.Api.CrossCutting.csproj" />
+  </ItemGroup>
+
 </Project>
