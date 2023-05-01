@@ -2,6 +2,6 @@
 {
     public interface IDatabaseInitializerRepository
     {
-        public Task InitializeDatabase();
+        public Task Initialize();
     }
 }

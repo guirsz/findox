@@ -8,16 +8,16 @@ namespace Findox.Api.Data.Repositories
 {
     public class DatabaseInitializerRepository : IDatabaseInitializerRepository
     {
-        private readonly string connectionString;
+        private readonly DatabaseConfigurations configurations;
 
         public DatabaseInitializerRepository(DatabaseConfigurations databaseConfigurations)
         {
-            connectionString = databaseConfigurations.ConnectionString;
+            configurations = databaseConfigurations;
         }
 
-        public async Task InitializeDatabase()
+        public async Task Initialize()
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
                 await connection.OpenAsync();
 

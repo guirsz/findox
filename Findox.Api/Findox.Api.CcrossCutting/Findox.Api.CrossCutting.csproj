@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Findox.Api.Domain\Findox.Api.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Initializer\" />
+  </ItemGroup>
+
 </Project>

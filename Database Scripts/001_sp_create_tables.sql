@@ -8,7 +8,8 @@ LANGUAGE 'sql'
 AS $BODY$
 CREATE TABLE IF NOT EXISTS users (
 	user_id         serial PRIMARY KEY,
-	user_name       VARCHAR ( 30 ) UNIQUE NOT NULL,
+	user_name	    VARCHAR ( 30 ) NOT NULL,
+	email      		VARCHAR ( 100 ) UNIQUE NOT NULL,
 	password        VARCHAR ( 300 ) NOT NULL,
 	role_id         INT NOT NULL,
 	created_date	TIMESTAMP NOT NULL,

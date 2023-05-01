@@ -27,6 +27,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
 await app.Services.InitializeDatabase();
 
 app.Run();

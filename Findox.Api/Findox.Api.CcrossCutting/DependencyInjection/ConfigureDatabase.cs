@@ -18,7 +18,7 @@ namespace Findox.Api.CrossCutting.DependencyInjection
         public static async Task InitializeDatabase(this IServiceProvider application)
         {
             var databaseInitializer = application.GetRequiredService<IDatabaseInitializerRepository>();
-            await databaseInitializer.InitializeDatabase();
+            await databaseInitializer.Initialize();
         }
     }
 }
