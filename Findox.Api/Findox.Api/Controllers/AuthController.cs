@@ -8,7 +8,6 @@ namespace Findox.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         [AllowAnonymous]

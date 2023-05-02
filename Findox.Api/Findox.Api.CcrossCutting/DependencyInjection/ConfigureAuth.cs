@@ -1,8 +1,10 @@
-﻿using Findox.Api.Domain.Security;
+﻿using Findox.Api.Domain.Enumerators;
+using Findox.Api.Domain.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace Findox.Api.CrossCutting.DependencyInjection
 {
@@ -38,9 +40,23 @@ namespace Findox.Api.CrossCutting.DependencyInjection
         {
             services.AddAuthorization(auth =>
             {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                auth.AddPolicy("Admin", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
+                    .RequireAuthenticatedUser()
+                    .RequireClaim(ClaimTypes.Role, UserRole.Admin.ToString())
+                    .Build());
+
+                auth.AddPolicy("Manager", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .RequireClaim(ClaimTypes.Role, UserRole.Admin.ToString(), UserRole.Manager.ToString())
+                    .Build());
+
+                auth.AddPolicy("RegularUser", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .RequireClaim(ClaimTypes.Role, UserRole.Admin.ToString(), UserRole.Manager.ToString(), UserRole.RegularUser.ToString())
+                    .Build());
             });
         }
     }

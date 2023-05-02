@@ -25,7 +25,7 @@ namespace Findox.Api.Data.Repositories
                 await connection.ExecuteAsync("sp_ensure_initial_data",
                     param: new
                     {
-                        user_role_id = UserRoleEnum.Admin,
+                        user_role_id = UserRole.Admin,
                         admin_user_name = "guirsz",
                         admin_user_email = "guirsz@gmail.com",
                         admin_user_password = "guirsz".HashPassword(),

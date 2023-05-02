@@ -1,4 +1,5 @@
 ﻿using Findox.Api.Domain.Entities;
+using Findox.Api.Domain.Enumerators;
 using Findox.Api.Domain.Helpers;
 using Findox.Api.Domain.Interfaces;
 using Findox.Api.Domain.Requests;
@@ -36,7 +37,7 @@ namespace Findox.Api.Service.Services
 
                 if (baseUser != null && user.Password.VerifyHashedPassword(baseUser.Password))
                 {
-                    return SuccessObject(user.Email, baseUser.UserId, baseUser.UserName);
+                    return SuccessObject(user.Email, baseUser.UserId, baseUser.UserName, baseUser.RoleId);
                 }
             }
             return new
@@ -46,7 +47,7 @@ namespace Findox.Api.Service.Services
             };
         }
 
-        private object SuccessObject(string email, int userId, string userName)
+        private object SuccessObject(string email, int userId, string userName, UserRole roleId)
         {
             var identity = new ClaimsIdentity(
                 new GenericIdentity(email),
@@ -55,7 +56,8 @@ namespace Findox.Api.Service.Services
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jti token ID
                     new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.Name, userName),
-                    new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                    new Claim(ClaimTypes.Role, roleId.ToString())
                 }
             );
 

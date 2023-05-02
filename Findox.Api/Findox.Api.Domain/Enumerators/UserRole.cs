@@ -1,6 +1,6 @@
 ﻿namespace Findox.Api.Domain.Enumerators
 {
-    public enum UserRoleEnum
+    public enum UserRole
     {
         Admin = 1,
         Manager = 2,
