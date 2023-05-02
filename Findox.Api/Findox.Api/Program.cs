@@ -1,5 +1,6 @@
 using Findox.Api.CrossCutting.DependencyInjection;
 using Findox.Api.Middlewares;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache(options => options.SizeLimit = 2048);
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.All;
+    logging.MediaTypeOptions.AddText("application/javascript");
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+
+});
 
 builder.Services.ConfigureDatabaseConfigurations(builder.Configuration);
 builder.Services.ConfigureRepositories();
