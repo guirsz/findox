@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
+builder.Services.AddMemoryCache(options => options.SizeLimit = 2048);
 
 builder.Services.ConfigureDatabaseConfigurations(builder.Configuration);
 builder.Services.ConfigureRepositories();

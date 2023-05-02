@@ -1,9 +1,9 @@
 ﻿using Findox.Api.Domain.Entities;
-using Findox.Api.Domain.Enumerators;
 using Findox.Api.Domain.Helpers;
 using Findox.Api.Domain.Interfaces;
 using Findox.Api.Domain.Requests;
 using Findox.Api.Domain.Security;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,28 +16,31 @@ namespace Findox.Api.Service.Services
         private IUserRepository repository;
         private SigningConfigurations signingConfigurations;
         private TokenConfigurations tokenConfigurations;
+        private IMemoryCache memoryCache;
 
-        public AuthService(
-                            IUserRepository repository,
-                            SigningConfigurations signingConfigurations,
-                            TokenConfigurations tokenConfigurations)
+        public AuthService(IUserRepository repository,
+                           SigningConfigurations signingConfigurations,
+                           TokenConfigurations tokenConfigurations,
+                           IMemoryCache memoryCache)
         {
             this.repository = repository;
             this.signingConfigurations = signingConfigurations;
             this.tokenConfigurations = tokenConfigurations;
+            this.memoryCache = memoryCache;
         }
 
         public async Task<object> Authenticate(AuthRequest user)
         {
-            var baseUser = new UserEntity();
-
             if (user != null && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Password))
             {
-                baseUser = await repository.FindByEmail(user.Email);
+                var baseUser = await repository.FindByEmail(user.Email);
 
                 if (baseUser != null && user.Password.VerifyHashedPassword(baseUser.Password))
                 {
-                    return SuccessObject(user.Email, baseUser.UserId, baseUser.UserName, baseUser.RoleId);
+                    DateTime createDate = DateTime.Now;
+                    DateTime expirationDate = createDate + TimeSpan.FromSeconds(tokenConfigurations.Seconds);
+                    memoryCache.Set(baseUser.UserId, baseUser, expirationDate);
+                    return SuccessObject(baseUser, createDate, expirationDate);
                 }
             }
             return new
@@ -47,22 +50,17 @@ namespace Findox.Api.Service.Services
             };
         }
 
-        private object SuccessObject(string email, int userId, string userName, UserRole roleId)
+        private object SuccessObject(UserEntity user, DateTime createDate, DateTime expirationDate)
         {
             var identity = new ClaimsIdentity(
-                new GenericIdentity(email),
+                new GenericIdentity(user.Email),
                 new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jti token ID
-                    new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Name, userName),
-                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                    new Claim(ClaimTypes.Role, roleId.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Role, user.RoleId.ToString())
                 }
             );
-
-            DateTime createDate = DateTime.Now;
-            DateTime expirationDate = createDate + TimeSpan.FromSeconds(tokenConfigurations.Seconds);
 
             var handler = new JwtSecurityTokenHandler();
             string token = CreateToken(identity, createDate, expirationDate, handler);
@@ -73,8 +71,8 @@ namespace Findox.Api.Service.Services
                 created = createDate.ToString("yyyy-MM-ddTHH:mm:ss"),
                 expiration = expirationDate.ToString("yyyy-MM-ddTHH:mm:ss"),
                 accessToken = token,
-                userEmail = email,
-                userName = userName,
+                userEmail = user.Email,
+                userName = user.UserName,
                 message = "User logged in successfully."
             };
         }
