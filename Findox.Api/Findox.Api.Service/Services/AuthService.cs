@@ -81,8 +81,8 @@ namespace Findox.Api.Service.Services
         {
             var securityToken = handler.CreateToken(new SecurityTokenDescriptor
             {
-                //Issuer = tokenConfigurations.Issuer,
-                //Audience = tokenConfigurations.Audience,
+                Issuer = tokenConfigurations.Issuer,
+                Audience = tokenConfigurations.Audience,
                 SigningCredentials = signingConfigurations.SigningCredencials,
                 Subject = identity,
                 NotBefore = createDate,
