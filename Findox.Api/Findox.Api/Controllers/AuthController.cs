@@ -12,7 +12,7 @@ namespace Findox.Api.Controllers
     {
         [AllowAnonymous]
         [HttpPost]
-        public async Task<object> Login([FromBody] AuthRequest request, [FromServices] IAuthService services)
+        public async Task<IActionResult> Login([FromBody] AuthRequest request, [FromServices] IAuthService services)
         {
             if (request == null)
             {
@@ -25,7 +25,7 @@ namespace Findox.Api.Controllers
 
                 if (result != null)
                 {
-                    return result;
+                    return Ok(result);
                 }
 
                 return BadRequest("Wrong email or password.");

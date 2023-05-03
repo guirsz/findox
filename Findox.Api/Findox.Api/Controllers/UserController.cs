@@ -1,45 +1,72 @@
-﻿using Findox.Api.Domain.Enumerators;
+﻿using Findox.Api.Domain.Interfaces;
+using Findox.Api.Domain.Requests;
+using Findox.Api.Domain.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Findox.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    [Authorize("Admin")]
+    public class UserController : AuthenticatedUserControllerBase
     {
-        // GET: api/<UserController>
+        private readonly IUserService userService;
+
+        public UserController(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAll([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<UserResponse> result = await userService.GetAll(limit, offset);
+            return Ok(result);
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return "value";
+            UserResponse? result = await userService.GetById(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
-        // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Create([FromBody] UserRequest request)
         {
+            (int userId, string message) = await userService.Create(request, RequestedBy());
+
+            if (userId == 0)
+                return ValidationProblem(message);
+
+            return Ok(new { userId, message });
         }
 
-        // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Update(int id, [FromBody] UserRequest request)
         {
+            (int userId, string message) = await userService.Update(id, request, RequestedBy());
+
+            if (userId == 0)
+                return ValidationProblem(message);
+
+            return Ok(new { userId, message });
         }
 
-        // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            (bool deleted, string message) = await userService.Delete(id, RequestedBy());
+
+            if (deleted == false)
+                return ValidationProblem(message);
+
+            return Ok();
         }
     }
 }

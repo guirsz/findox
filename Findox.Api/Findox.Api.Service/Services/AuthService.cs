@@ -39,7 +39,6 @@ namespace Findox.Api.Service.Services
                 {
                     DateTime createDate = DateTime.Now;
                     DateTime expirationDate = createDate + TimeSpan.FromSeconds(tokenConfigurations.Seconds);
-                    memoryCache.Set(baseUser.UserId, baseUser, expirationDate);
                     return SuccessObject(baseUser, createDate, expirationDate);
                 }
             }

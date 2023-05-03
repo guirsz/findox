@@ -9,6 +9,7 @@ namespace Findox.Api.CrossCutting.DependencyInjection
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUserService, UserService>();
         }
     }
 }
