@@ -19,16 +19,16 @@ namespace Findox.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int limit = 20, [FromQuery] int offset = 0)
+        public async Task<IActionResult> GetAllPaginated([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            IEnumerable<UserResponse> result = await userService.GetAll(limit, offset);
+            IEnumerable<UserResponse> result = await userService.GetAllPaginatedAsync(limit, offset);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            UserResponse? result = await userService.GetById(id);
+            UserResponse? result = await userService.GetByIdAsync(id);
 
             if (result == null)
                 return NotFound();
@@ -39,7 +39,7 @@ namespace Findox.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserRequest request)
         {
-            (int userId, string message) = await userService.Create(request, RequestedBy());
+            (int userId, string message) = await userService.CreateAsync(request, RequestedBy());
 
             if (userId == 0)
                 return ValidationProblem(message);
@@ -50,7 +50,7 @@ namespace Findox.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UserRequest request)
         {
-            (int userId, string message) = await userService.Update(id, request, RequestedBy());
+            (int userId, string message) = await userService.UpdateAsync(id, request, RequestedBy());
 
             if (userId == 0)
                 return ValidationProblem(message);
@@ -61,7 +61,7 @@ namespace Findox.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            (bool deleted, string message) = await userService.Delete(id, RequestedBy());
+            (bool deleted, string message) = await userService.DeleteAsync(id, RequestedBy());
 
             if (deleted == false)
                 return ValidationProblem(message);

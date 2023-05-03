@@ -2,7 +2,6 @@
 using Findox.Api.Domain.Interfaces;
 using Findox.Api.Domain.Requests;
 using Findox.Api.Domain.Security;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,24 +14,21 @@ namespace Findox.Api.Service.Services
         private IUserRepository repository;
         private SigningConfigurations signingConfigurations;
         private TokenConfigurations tokenConfigurations;
-        private IMemoryCache memoryCache;
 
         public AuthService(IUserRepository repository,
                            SigningConfigurations signingConfigurations,
-                           TokenConfigurations tokenConfigurations,
-                           IMemoryCache memoryCache)
+                           TokenConfigurations tokenConfigurations)
         {
             this.repository = repository;
             this.signingConfigurations = signingConfigurations;
             this.tokenConfigurations = tokenConfigurations;
-            this.memoryCache = memoryCache;
         }
 
-        public async Task<object> Authenticate(AuthRequest request)
+        public async Task<object> AuthenticateAsync(AuthRequest request)
         {
             if (request != null && !string.IsNullOrWhiteSpace(request.Email) && !string.IsNullOrWhiteSpace(request.Password))
             {
-                var baseUser = await repository.FindByEmail(request.Email);
+                var baseUser = await repository.FindByEmailAsync(request.Email);
 
                 if (baseUser != null && Argon2Hash.VerifyHash(request.Password, baseUser.PasswordSalt, baseUser.PasswordHash))
                 {

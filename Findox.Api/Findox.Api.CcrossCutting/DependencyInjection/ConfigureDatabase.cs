@@ -19,7 +19,7 @@ namespace Findox.Api.CrossCutting.DependencyInjection
         {
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
             var databaseInitializer = application.GetRequiredService<IDatabaseInitializerRepository>();
-            await databaseInitializer.Initialize();
+            await databaseInitializer.InitializeAsync();
         }
     }
 }

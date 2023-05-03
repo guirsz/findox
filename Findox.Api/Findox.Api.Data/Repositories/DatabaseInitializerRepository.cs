@@ -16,20 +16,20 @@ namespace Findox.Api.Data.Repositories
             configurations = databaseConfigurations;
         }
 
-        public async Task Initialize()
+        public async Task InitializeAsync()
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
                 await connection.OpenAsync();
 
                 var salt = Argon2Hash.CreateSalt();
-                await CreateAdminUser(connection, salt);
-                await CreateManagerUser(connection, salt);
-                await CreateRegularUser(connection, salt);
+                await CreateAdminUserAsync(connection, salt);
+                await CreateManagerUserAsync(connection, salt);
+                await CreateRegularUserAsync(connection, salt);
             }
         }
 
-        private static async Task CreateRegularUser(NpgsqlConnection connection, byte[] salt)
+        private static async Task CreateRegularUserAsync(NpgsqlConnection connection, byte[] salt)
         {
             var hashed = Argon2Hash.HashPassword("kimberly.owen", salt);
             await connection.ExecuteScalarAsync("SELECT * FROM fn_users_create(@in_role_id, @in_user_name, @in_email, @in_password_hash, @in_password_salt)",
@@ -44,7 +44,7 @@ namespace Findox.Api.Data.Repositories
                                 commandType: System.Data.CommandType.Text);
         }
 
-        private static async Task CreateManagerUser(NpgsqlConnection connection, byte[] salt)
+        private static async Task CreateManagerUserAsync(NpgsqlConnection connection, byte[] salt)
         {
             var hashed = Argon2Hash.HashPassword("guilherme.souza", salt);
             await connection.ExecuteScalarAsync("SELECT * FROM fn_users_create(@in_role_id, @in_user_name, @in_email, @in_password_hash, @in_password_salt)",
@@ -59,7 +59,7 @@ namespace Findox.Api.Data.Repositories
                                 commandType: System.Data.CommandType.Text);
         }
 
-        private static async Task CreateAdminUser(NpgsqlConnection connection, byte[] salt)
+        private static async Task CreateAdminUserAsync(NpgsqlConnection connection, byte[] salt)
         {
             var hashed = Argon2Hash.HashPassword("brian.bentow", salt);
             await connection.ExecuteScalarAsync("SELECT * FROM fn_users_create(@in_role_id, @in_user_name, @in_email, @in_password_hash, @in_password_salt)",

@@ -21,7 +21,7 @@ namespace Findox.Api.Controllers
 
             try
             {
-                var result = await services.Authenticate(request);
+                var result = await services.AuthenticateAsync(request);
 
                 if (result != null)
                 {

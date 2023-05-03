@@ -15,7 +15,7 @@ namespace Findox.Api.Data.Repositories
             configurations = databaseConfigurations;
         }
 
-        public async Task<UserEntity?> FindByEmail(string email)
+        public async Task<UserEntity?> FindByEmailAsync(string email)
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {

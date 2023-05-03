@@ -4,6 +4,6 @@ namespace Findox.Api.Domain.Interfaces
 {
     public interface IAuthService
     {
-        Task<object> Authenticate(AuthRequest request);
+        Task<object> AuthenticateAsync(AuthRequest request);
     }
 }

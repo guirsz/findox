@@ -4,6 +4,6 @@ namespace Findox.Api.Domain.Interfaces
 {
     public interface IUserRepository
     {
-        Task<UserEntity?> FindByEmail(string email);
+        Task<UserEntity?> FindByEmailAsync(string email);
     }
 }
