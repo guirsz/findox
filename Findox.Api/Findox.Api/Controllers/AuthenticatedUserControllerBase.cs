@@ -7,7 +7,7 @@ namespace Findox.Api.Controllers
     {
         public AuthenticatedUserControllerBase() { }
 
-        public int RequestedBy()
+        protected int RequestedBy()
         {
             var claimValue = User.Claims?.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier)?.Value;
             if (claimValue != null)

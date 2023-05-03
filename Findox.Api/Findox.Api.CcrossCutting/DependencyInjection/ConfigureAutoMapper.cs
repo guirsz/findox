@@ -3,11 +3,11 @@ using System.Reflection;
 
 namespace Findox.Api.CrossCutting.DependencyInjection
 {
-    public static class ConfigureAutoMapper
+    public static class ConfiguringAutoMapper
     {
-        public static void AddAutoMapper(this IServiceCollection services, Assembly assembly)
+        public static void ConfigureAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(assembly);
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Findox.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             UserResponse? result = await userService.GetById(id);

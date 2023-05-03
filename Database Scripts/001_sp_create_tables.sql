@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 	email      		VARCHAR ( 100 ) UNIQUE NOT NULL,
 	password        VARCHAR ( 300 ) NOT NULL,
 	role_id         INT NOT NULL,
+	enabled			BOOL DEFAULT 't',
 	created_date	TIMESTAMP NOT NULL,
 	created_by 		INT,
 	updated_date	TIMESTAMP NOT NULL,

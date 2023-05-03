@@ -13,6 +13,7 @@ SELECT
 	*
 FROM users
 WHERE email = user_email
+AND enabled = TRUE
 $BODY$;
 
 ALTER FUNCTION public.fn_users_find_by_email(character varying)

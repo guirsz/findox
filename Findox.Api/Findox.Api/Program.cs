@@ -1,7 +1,6 @@
 using Findox.Api.CrossCutting.DependencyInjection;
 using Findox.Api.Middlewares;
 using Microsoft.AspNetCore.HttpLogging;
-using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +13,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
     // ignore omitted parameters on models to enable optional params (e.g. User update)
     x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-}); 
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -29,8 +28,8 @@ builder.Services.AddHttpLogging(logging =>
     logging.ResponseBodyLogLimit = 4096;
 
 });
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureDatabaseConfigurations(builder.Configuration);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureServices();
