@@ -1,5 +1,4 @@
 ﻿using Findox.Api.Domain.Entities;
-using Findox.Api.Domain.Helpers;
 using Findox.Api.Domain.Interfaces;
 using Findox.Api.Domain.Requests;
 using Findox.Api.Domain.Security;
@@ -29,13 +28,13 @@ namespace Findox.Api.Service.Services
             this.memoryCache = memoryCache;
         }
 
-        public async Task<object> Authenticate(AuthRequest user)
+        public async Task<object> Authenticate(AuthRequest request)
         {
-            if (user != null && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Password))
+            if (request != null && !string.IsNullOrWhiteSpace(request.Email) && !string.IsNullOrWhiteSpace(request.Password))
             {
-                var baseUser = await repository.FindByEmail(user.Email);
+                var baseUser = await repository.FindByEmail(request.Email);
 
-                if (baseUser != null && user.Password.VerifyHashedPassword(baseUser.Password))
+                if (baseUser != null && Argon2Hash.VerifyHash(request.Password, baseUser.PasswordSalt, baseUser.PasswordHash))
                 {
                     DateTime createDate = DateTime.Now;
                     DateTime expirationDate = createDate + TimeSpan.FromSeconds(tokenConfigurations.Seconds);

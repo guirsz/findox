@@ -10,17 +10,18 @@ CREATE TABLE IF NOT EXISTS users (
 	user_id         serial PRIMARY KEY,
 	user_name	    VARCHAR ( 30 ) NOT NULL,
 	email      		VARCHAR ( 100 ) UNIQUE NOT NULL,
-	password        VARCHAR ( 300 ) NOT NULL,
+	password_hash   BYTEA NOT NULL,
+	password_salt	BYTEA NOT NULL,
 	role_id         INT NOT NULL,
-	enabled			BOOL DEFAULT 't',
+	enabled			BOOLEAN DEFAULT TRUE,
 	created_date	TIMESTAMP NOT NULL,
 	created_by 		INT,
 	updated_date	TIMESTAMP NOT NULL,
 	updated_by		INT
 );
 CREATE TABLE IF NOT EXISTS groups (
-	group_id    serial PRIMARY KEY,
-	group_name  VARCHAR ( 30 ) UNIQUE NOT NULL,
+	group_id    	serial PRIMARY KEY,
+	group_name  	VARCHAR ( 30 ) UNIQUE NOT NULL,
 	created_date	TIMESTAMP NOT NULL,
 	created_by 		INT,
 	updated_date	TIMESTAMP NOT NULL,

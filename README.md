@@ -8,3 +8,15 @@ docker exec -it container-postgresdb bash
 psql -U postgres
 CREATE DATABASE findoxdb;
 ```
+###### Default available users
+**Admin**
+Email: brian@findox.com
+Password: brian.bentow
+
+**Manager**
+Email: guilherme@findox.com
+Password: guilherme.souza
+
+**Regular User**
+Email: kimberly.owen@missionresourcing.com
+Password: kimberly.owen

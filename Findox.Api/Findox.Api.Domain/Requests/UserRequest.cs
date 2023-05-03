@@ -13,8 +13,8 @@ namespace Findox.Api.Domain.Requests
         [StringLength(100)]
         public string Email { get; set; }
         [Required]
-        [StringLength(30)]
-        [MinLength(6)]
+        [StringLength(64)]
+        [MinLength(8)]
         public string Password { get; set; }
         [Required]
         public UserRole RoleId { get; set; }
