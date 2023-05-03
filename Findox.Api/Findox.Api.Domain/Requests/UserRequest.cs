@@ -1,6 +1,5 @@
 ﻿using Findox.Api.Domain.Enumerators;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 
 namespace Findox.Api.Domain.Requests
 {
@@ -18,7 +17,6 @@ namespace Findox.Api.Domain.Requests
         [MinLength(6)]
         public string Password { get; set; }
         [Required]
-        [EnumDataType(typeof(UserRole))]
-        public string Role { get; set; }
+        public UserRole RoleId { get; set; }
     }
 }

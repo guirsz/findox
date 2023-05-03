@@ -1,6 +1,7 @@
 using Findox.Api.CrossCutting.DependencyInjection;
 using Findox.Api.Middlewares;
 using Microsoft.AspNetCore.HttpLogging;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ builder.Services.AddHttpLogging(logging =>
     logging.ResponseBodyLogLimit = 4096;
 
 });
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.ConfigureDatabaseConfigurations(builder.Configuration);
 builder.Services.ConfigureRepositories();
