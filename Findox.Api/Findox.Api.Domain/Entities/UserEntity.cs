@@ -15,6 +15,5 @@ namespace Findox.Api.Domain.Entities
         public DateTime UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
         public bool Enabled { get; set; } = true;
-        public int[] UserGroups { get; set; } = new int[0];
     }
 }

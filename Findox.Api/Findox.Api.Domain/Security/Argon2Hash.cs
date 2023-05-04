@@ -23,8 +23,8 @@ namespace Findox.Api.Domain.Security
 
             argon2.Salt = salt;
             argon2.DegreeOfParallelism = 1; // one cores
-            argon2.Iterations = 2;
-            argon2.MemorySize = 1024 * 19; // 19MB
+            argon2.Iterations = 3;
+            argon2.MemorySize = 1024 * 12; // 7MB
 
             return argon2.GetBytes(16);
         }

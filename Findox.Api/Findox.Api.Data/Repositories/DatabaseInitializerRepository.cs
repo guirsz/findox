@@ -1,7 +1,7 @@
 ﻿using Dapper;
-using Findox.Api.Domain;
+using Findox.Api.Data.Extensions;
 using Findox.Api.Domain.Enumerators;
-using Findox.Api.Domain.Interfaces;
+using Findox.Api.Domain.Interfaces.Repositories;
 using Findox.Api.Domain.Security;
 using Npgsql;
 
@@ -9,28 +9,23 @@ namespace Findox.Api.Data.Repositories
 {
     public class DatabaseInitializerRepository : IDatabaseInitializerRepository
     {
-        private readonly DatabaseConfigurations configurations;
+        private NpgsqlConnection connection;
 
-        public DatabaseInitializerRepository(DatabaseConfigurations databaseConfigurations)
+        public DatabaseInitializerRepository(IDatabaseAccess database)
         {
-            configurations = databaseConfigurations;
+            this.connection = database.Connection();
         }
 
         public async Task InitializeAsync()
         {
-            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            var exists = await connection.QueryAsync<int>("select 1 from users fetch first 1 rows only");
+
+            if (exists.Any() && exists.FirstOrDefault() != 1)
             {
-                await connection.OpenAsync();
-
-                var exists = await connection.QueryAsync<int>("select 1 from users fetch first 1 rows only");
-
-                if (exists.Any() && exists.FirstOrDefault() != 1)
-                {
-                    var salt = Argon2Hash.CreateSalt();
-                    await CreateAdminUserAsync(connection, salt);
-                    await CreateManagerUserAsync(connection, salt);
-                    await CreateRegularUserAsync(connection, salt);
-                }
+                var salt = Argon2Hash.CreateSalt();
+                await CreateAdminUserAsync(connection, salt);
+                await CreateManagerUserAsync(connection, salt);
+                await CreateRegularUserAsync(connection, salt);
             }
         }
 

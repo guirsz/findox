@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using Findox.Api.Domain;
 using Findox.Api.Domain.Entities;
-using Findox.Api.Domain.Interfaces;
+using Findox.Api.Domain.Interfaces.Repositories;
+using Findox.Api.Domain.Requests;
+using Findox.Api.Domain.Responses;
 using Npgsql;
 using System.Data;
 
@@ -16,7 +18,7 @@ namespace Findox.Api.Data.Repositories
             configurations = databaseConfigurations;
         }
 
-        public async Task<int> CreateAsync(UserEntity user)
+        public async Task<int> InsertAsync(UserEntity user)
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
@@ -74,6 +76,41 @@ namespace Findox.Api.Data.Repositories
 
                 return results?.FirstOrDefault(a => a.UserId > 0);
             }
+        }
+
+        public Task LinkGroupAsync(UserGroupEntity userGroupEntity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserEntity> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(UserEntity user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<UserResponse>> GetAllPaginatedAsync(UserGetAllPaginatedRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserResponse> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int[]> GetUserGroupsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnlinkGroupAsync(int userId, IEnumerable<int> groupsToUnlink)
+        {
+            throw new NotImplementedException();
         }
     }
 }

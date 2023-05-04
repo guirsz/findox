@@ -1,4 +1,4 @@
-﻿using Findox.Api.Domain.Interfaces;
+﻿using Findox.Api.Domain.Interfaces.Services;
 using Findox.Api.Domain.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ namespace Findox.Api.Controllers
 
             try
             {
-                var result = await services.AuthenticateAsync(request);
+                var result = await services.RunAsync(request);
 
                 if (result != null)
                 {

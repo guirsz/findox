@@ -1,5 +1,6 @@
-﻿using Findox.Api.Domain;
-using Findox.Api.Domain.Interfaces;
+﻿using Findox.Api.Data.Extensions;
+using Findox.Api.Domain;
+using Findox.Api.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,9 @@ namespace Findox.Api.CrossCutting.DependencyInjection
             var dbConfigurations = new DatabaseConfigurations();
             new ConfigureFromConfigurationOptions<DatabaseConfigurations>(configuration.GetSection("DatabaseConfigurations")).Configure(dbConfigurations);
             services.AddSingleton(dbConfigurations);
+
+            var dataSource = new PostgresDataSource(dbConfigurations);
+            services.AddSingleton(dataSource);
         }
 
         public static async Task InitializeDatabase(this IServiceProvider application)

@@ -1,4 +1,4 @@
-﻿namespace Findox.Api.Domain.Interfaces
+﻿namespace Findox.Api.Domain.Interfaces.Repositories
 {
     public interface IDatabaseInitializerRepository
     {

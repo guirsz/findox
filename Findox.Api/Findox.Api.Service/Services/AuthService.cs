@@ -1,5 +1,6 @@
 ﻿using Findox.Api.Domain.Entities;
-using Findox.Api.Domain.Interfaces;
+using Findox.Api.Domain.Interfaces.Repositories;
+using Findox.Api.Domain.Interfaces.Services;
 using Findox.Api.Domain.Requests;
 using Findox.Api.Domain.Security;
 using Microsoft.IdentityModel.Tokens;
@@ -11,9 +12,9 @@ namespace Findox.Api.Service.Services
 {
     public class AuthService : IAuthService
     {
-        private IUserRepository repository;
-        private SigningConfigurations signingConfigurations;
-        private TokenConfigurations tokenConfigurations;
+        private readonly IUserRepository repository;
+        private readonly SigningConfigurations signingConfigurations;
+        private readonly TokenConfigurations tokenConfigurations;
 
         public AuthService(IUserRepository repository,
                            SigningConfigurations signingConfigurations,
@@ -24,7 +25,7 @@ namespace Findox.Api.Service.Services
             this.tokenConfigurations = tokenConfigurations;
         }
 
-        public async Task<object> AuthenticateAsync(AuthRequest request)
+        public async Task<object> RunAsync(AuthRequest request)
         {
             if (request != null && !string.IsNullOrWhiteSpace(request.Email) && !string.IsNullOrWhiteSpace(request.Password))
             {
