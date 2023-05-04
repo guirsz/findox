@@ -17,13 +17,10 @@ namespace Findox.Api.CrossCutting.DependencyInjection
 
             var dataSource = new PostgresDataSource(dbConfigurations);
             services.AddSingleton(dataSource);
-        }
 
-        public static async Task InitializeDatabase(this IServiceProvider application)
-        {
+            services.AddScoped<IDatabaseAccess, DatabaseAccess>();
+
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
-            var databaseInitializer = application.GetRequiredService<IDatabaseInitializerRepository>();
-            await databaseInitializer.InitializeAsync();
         }
     }
 }

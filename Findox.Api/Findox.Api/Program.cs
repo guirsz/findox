@@ -56,6 +56,4 @@ app.MapControllers();
 
 app.MapHealthChecks("/health");
 
-await app.Services.InitializeDatabase();
-
 app.Run();

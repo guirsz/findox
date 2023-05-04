@@ -9,9 +9,10 @@ namespace Findox.Api.CrossCutting.DependencyInjection
     {
         public static void ConfigureRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IDatabaseAccess, DatabaseAccess>();
-            services.AddTransient<IDatabaseInitializerRepository, DatabaseInitializerRepository>();
+            services.AddTransient<IInitDatabaseRepository, InitDatabaseRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
         }
     }
 }
+

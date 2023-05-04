@@ -14,7 +14,6 @@ namespace Findox.Api.Data.Extensions
         public DatabaseAccess(PostgresDataSource postgresDataSource)
         {
             _openConnection = postgresDataSource.DataSource.OpenConnection();
-            _openConnection.Open();
         }
 
         public NpgsqlConnection Connection()

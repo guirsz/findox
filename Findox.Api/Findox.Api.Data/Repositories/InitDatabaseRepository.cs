@@ -7,11 +7,11 @@ using Npgsql;
 
 namespace Findox.Api.Data.Repositories
 {
-    public class DatabaseInitializerRepository : IDatabaseInitializerRepository
+    public class InitDatabaseRepository : IInitDatabaseRepository
     {
         private NpgsqlConnection connection;
 
-        public DatabaseInitializerRepository(IDatabaseAccess database)
+        public InitDatabaseRepository(IDatabaseAccess database)
         {
             this.connection = database.Connection();
         }
