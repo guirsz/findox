@@ -22,7 +22,8 @@ namespace Findox.Api.Middlewares
                         await context.Response.WriteAsync(new ErrorDetailsResponse
                         {
                             StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error."
+                            Message = "Internal Server Error.",
+                            ErrorMessage = contextFeature.Error.Message
                         }.ToString());
                     }
                 });

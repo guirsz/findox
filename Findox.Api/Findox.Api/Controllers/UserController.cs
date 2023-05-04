@@ -19,9 +19,9 @@ namespace Findox.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPaginated([FromQuery] int limit = 20, [FromQuery] int offset = 0)
+        public async Task<IActionResult> GetAllPaginated([FromQuery] UserGetAllPaginatedRequest query)
         {
-            IEnumerable<UserResponse> result = await userService.GetAllPaginatedAsync(limit, offset);
+            IEnumerable<UserResponse> result = await userService.GetAllPaginatedAsync(query);
             return Ok(result);
         }
 
@@ -37,7 +37,7 @@ namespace Findox.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserRequest request)
+        public async Task<IActionResult> Create([FromBody] UserCreateRequest request)
         {
             (int userId, string message) = await userService.CreateAsync(request, RequestedBy());
 
@@ -48,7 +48,7 @@ namespace Findox.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UserRequest request)
+        public async Task<IActionResult> Update(int id, [FromBody] UserUpdateRequest request)
         {
             (int userId, string message) = await userService.UpdateAsync(id, request, RequestedBy());
 
