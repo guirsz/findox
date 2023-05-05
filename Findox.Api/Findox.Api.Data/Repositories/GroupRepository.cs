@@ -1,6 +1,7 @@
 ﻿using Findox.Api.Domain;
 using Findox.Api.Domain.Entities;
 using Findox.Api.Domain.Interfaces.Repositories;
+using Findox.Api.Domain.Responses;
 
 namespace Findox.Api.Data.Repositories
 {
@@ -13,12 +14,32 @@ namespace Findox.Api.Data.Repositories
             configurations = databaseConfigurations;
         }
 
-        public Task<GroupEntity> SelectByIdAsync(int groupId)
+        public Task<IEnumerable<GroupResponse>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<GroupEntity>> SelectManyByIdAsync(int[] groups)
+        public Task<GroupEntity> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GroupEntity> GetByName(string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<GroupEntity>> GetManyByIdAsync(int[] groups)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> InsertAsync(GroupEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateAsync(GroupEntity groupEntity)
         {
             throw new NotImplementedException();
         }

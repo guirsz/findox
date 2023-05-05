@@ -10,8 +10,8 @@ namespace Findox.Api.CrossCutting.Mappings
         public MappingProfile()
         {
             CreateMap<UserCreateRequest, UserEntity>();
-            CreateMap<UserUpdateRequest, UserEntity>();
             CreateMap<UserEntity, UserResponse>();
+            CreateMap<GroupEntity, GroupResponse>();
 
         }
     }

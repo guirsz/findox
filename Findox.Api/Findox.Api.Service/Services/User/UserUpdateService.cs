@@ -43,6 +43,7 @@ namespace Findox.Api.Service.Services.User
             userEntity.UserName = request.UserName;
             userEntity.RoleId = request.RoleId;
             userEntity.Email = request.Email;
+            userEntity.Deleted = false;
 
             int[] actualGroups = await userRepository.GetUserGroupsAsync(userEntity.UserId);
             var groupsToUnlink = actualGroups.Where(groupId => request.Groups.Contains(groupId) == false);
@@ -86,7 +87,7 @@ namespace Findox.Api.Service.Services.User
         {
             if (requestedGroups.Any())
             {
-                IEnumerable<GroupEntity> groups = await groupRepository.SelectManyByIdAsync(requestedGroups);
+                IEnumerable<GroupEntity> groups = await groupRepository.GetManyByIdAsync(requestedGroups);
                 if (groups.Count() != requestedGroups.Count())
                 {
                     return true;

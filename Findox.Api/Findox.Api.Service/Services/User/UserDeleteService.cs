@@ -16,21 +16,21 @@ namespace Findox.Api.Service.Services.User
 
         public async Task<(bool deleted, string message)> RunAsync(int id, int requestedBy)
         {
-            UserEntity user = await userRepository.GetAsync(id);
+            var user = await userRepository.GetAsync(id);
 
             if (user == null || user.UserId == 0)
             {
                 return (false, ApplicationMessages.InvalidData);
             }
 
-            if (user.Enabled == false)
+            if (user.Deleted)
             {
                 return (true, ApplicationMessages.RemovedSuccessfully);
             }
 
             user.UpdatedDate = DateTime.Now;
             user.UpdatedBy = requestedBy;
-            user.Enabled = false;
+            user.Deleted = true;
 
             await userRepository.UpdateAsync(user);
 

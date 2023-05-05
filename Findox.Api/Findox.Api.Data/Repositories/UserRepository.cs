@@ -49,7 +49,7 @@ namespace Findox.Api.Data.Repositories
                         in_password_hash = user.PasswordHash,
                         in_password_salt = user.PasswordSalt,
                         in_role_id = user.RoleId,
-                        in_enabled = user.Enabled,
+                        in_enabled = user.Deleted,
                         in_created_date = user.CreatedDate,
                         in_created_by = user.CreatedBy,
                         in_updated_date = user.UpdatedDate,
@@ -83,22 +83,7 @@ namespace Findox.Api.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<UserEntity> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(UserEntity user)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<UserResponse>> GetAllPaginatedAsync(UserGetAllPaginatedRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserResponse> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -109,6 +94,16 @@ namespace Findox.Api.Data.Repositories
         }
 
         public Task UnlinkGroupAsync(int userId, IEnumerable<int> groupsToUnlink)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserEntity> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateAsync(UserEntity groupEntity)
         {
             throw new NotImplementedException();
         }

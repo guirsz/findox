@@ -19,13 +19,14 @@ namespace Findox.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize("RegularUser")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id,
             [FromServices] IUserGetByIdService service)
         {
-            UserResponse result = await service.RunAsync(id);
+            UserResponse? result = await service.RunAsync(id, RequestedBy(), UserRoleId());
 
-            if (result == null || result.UserId == 0)
+            if (result == null || result?.UserId == 0)
                 return NotFound();
 
             return Ok(result);

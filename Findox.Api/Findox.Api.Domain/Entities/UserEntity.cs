@@ -14,6 +14,6 @@ namespace Findox.Api.Domain.Entities
         public int CreatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
-        public bool Enabled { get; set; } = true;
+        public bool Deleted { get; set; } = false;
     }
 }

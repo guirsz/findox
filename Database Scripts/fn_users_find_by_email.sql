@@ -9,11 +9,10 @@ CREATE OR REPLACE FUNCTION public.fn_users_find_by_email(
     COST 100
     VOLATILE PARALLEL UNSAFE
 AS $BODY$
-SELECT 
-	*
-FROM users
-WHERE email = user_email
-AND enabled = TRUE
+	SELECT 
+		*
+	FROM users
+	WHERE email = user_email
 $BODY$;
 
 ALTER FUNCTION public.fn_users_find_by_email(character varying)

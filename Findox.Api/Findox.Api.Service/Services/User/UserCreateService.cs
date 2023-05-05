@@ -25,9 +25,12 @@ namespace Findox.Api.Service.Services.User
         {
             var userEntity = await userRepository.FindByEmailAsync(request.Email);
 
-            if (userEntity?.UserId > 0)
+            if (userEntity != null && userEntity.UserId > 0)
             {
-                return (0, ApplicationMessages.EmailUsed);
+                if (userEntity.Deleted)
+                    return (0, ApplicationMessages.UserDeleted);
+                else
+                    return (0, ApplicationMessages.EmailUsed);
             }
 
             bool anyInvalidGroup = await AnyInvalidGroup(request.Groups);
@@ -41,7 +44,7 @@ namespace Findox.Api.Service.Services.User
             var user = mapper.Map<UserEntity>(request);
             user.PasswordSalt = Argon2Hash.CreateSalt();
             user.PasswordHash = Argon2Hash.HashPassword(request.Password, user.PasswordSalt);
-            user.Enabled = true;
+            user.Deleted = true;
             user.CreatedBy = requestedBy;
             user.CreatedDate = dateTimeNow;
             user.UpdatedBy = requestedBy;
@@ -67,7 +70,7 @@ namespace Findox.Api.Service.Services.User
         {
             if (requestedGroups.Any())
             {
-                IEnumerable<GroupEntity> groups = await groupRepository.SelectManyByIdAsync(requestedGroups);
+                IEnumerable<GroupEntity> groups = await groupRepository.GetManyByIdAsync(requestedGroups);
                 if (groups.Count() != requestedGroups.Count())
                 {
                     return true;

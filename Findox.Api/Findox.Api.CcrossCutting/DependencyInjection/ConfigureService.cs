@@ -1,6 +1,8 @@
 ﻿using Findox.Api.Domain.Interfaces.Services;
+using Findox.Api.Domain.Interfaces.Services.Group;
 using Findox.Api.Domain.Interfaces.Services.User;
 using Findox.Api.Service.Services;
+using Findox.Api.Service.Services.Group;
 using Findox.Api.Service.Services.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +20,12 @@ namespace Findox.Api.CrossCutting.DependencyInjection
             services.AddTransient<IUserGetAllPaginatedService, UserGetAllPaginatedService>();
             services.AddTransient<IUserGetByIdService, UserGetByIdService>();
             services.AddTransient<IUserUpdateService, UserUpdateService>();
+
+            services.AddTransient<IGroupCreateService, GroupCreateService>();
+            services.AddTransient<IGroupDeleteService, GroupDeleteService>();
+            services.AddTransient<IGroupGetAllService, GroupGetAllService>();
+            services.AddTransient<IGroupGetByIdService, GroupGetByIdService>();
+            services.AddTransient<IGroupUpdateService, GroupUpdateService>();
         }
     }
 }

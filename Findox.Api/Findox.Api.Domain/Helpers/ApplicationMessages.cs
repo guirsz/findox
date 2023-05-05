@@ -8,5 +8,8 @@
         public const string UpdatedSuccessfully = "Updated successfully";
         public const string RemovedSuccessfully = "Removed successfully";
         public const string EmailInUse = "Email in use";
+        public const string GroupNameInUse = "Group name in use";
+        public const string UserDeleted = "This user was removed, to use it you must activate it";
+        public const string GroupAlreadyExists = "This group name already exists";
     }
 }
