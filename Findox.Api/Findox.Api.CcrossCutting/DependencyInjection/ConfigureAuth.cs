@@ -2,6 +2,7 @@
 using Findox.Api.Domain.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
@@ -10,7 +11,7 @@ namespace Findox.Api.CrossCutting.DependencyInjection
 {
     public static class ConfigureAuth
     {
-        public static void ConfigureAuthentication(this IServiceCollection services, Microsoft.Extensions.Configuration.ConfigurationManager configuration)
+        public static void ConfigureAuthentication(this IServiceCollection services, ConfigurationManager configuration)
         {
             var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);

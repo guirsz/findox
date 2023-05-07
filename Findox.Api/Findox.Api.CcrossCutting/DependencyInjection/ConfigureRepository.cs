@@ -1,5 +1,4 @@
-﻿using Findox.Api.Data.Extensions;
-using Findox.Api.Data.Repositories;
+﻿using Findox.Api.Data.Repositories;
 using Findox.Api.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +11,7 @@ namespace Findox.Api.CrossCutting.DependencyInjection
             services.AddTransient<IInitDatabaseRepository, InitDatabaseRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
         }
     }
 }

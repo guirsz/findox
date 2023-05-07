@@ -5,6 +5,8 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.ConfigureKestrelAndFileUpload();
+
 // Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
@@ -26,13 +28,12 @@ builder.Services.AddHttpLogging(logging =>
     logging.MediaTypeOptions.AddText("application/javascript");
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
-
 });
 
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureDatabaseConfigurations(builder.Configuration);
 builder.Services.ConfigureRepositories();
-builder.Services.ConfigureServices();
+builder.Services.ConfigureServices(builder.Environment.IsDevelopment());
 
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureAuthorization();
