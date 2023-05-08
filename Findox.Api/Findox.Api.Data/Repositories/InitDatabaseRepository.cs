@@ -20,7 +20,7 @@ namespace Findox.Api.Data.Repositories
         {
             var exists = await connection.QueryAsync<int>("select 1 from users fetch first 1 rows only");
 
-            if (exists.Any() && exists.FirstOrDefault() != 1)
+            if (exists.Any() == false)
             {
                 var salt = Argon2Hash.CreateSalt();
                 await CreateAdminUserAsync(connection, salt);

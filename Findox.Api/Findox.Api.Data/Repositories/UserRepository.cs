@@ -24,24 +24,8 @@ namespace Findox.Api.Data.Repositories
             {
                 await connection.OpenAsync();
 
-                //var parameters = new DynamicParameters();
-                //parameters.Add("in_user_name", user.UserName);
-                //parameters.Add("in_email", user.UserName);
-                //parameters.Add("in_password_hash", user.UserName);
-                //parameters.Add("in_password_salt", user.UserName);
-                //parameters.Add("in_role_id", user.UserName);
-                //parameters.Add("in_enabled", user.UserName);
-                //parameters.Add("in_created_date", user.UserName);
-                //parameters.Add("in_created_by", user.UserName);
-                //parameters.Add("in_user_name", user.UserName);
-
                 user.UserId = await connection.ExecuteScalarAsync<int>(@"
-                    SELECT * FROM fn_users_create
-                    (
-                        @in_user_name, @in_email, @in_password_hash, @in_password_salt, 
-                        @in_role_id, @in_enabled, @in_created_date, @in_created_by, 
-                        @in_updated_date, @in_updated_by
-                    );",
+                    SELECT fn_users_create(@in_user_name, @in_email, @in_password_hash, @in_password_salt, @in_role_id, @in_deleted, @in_created_date, @in_created_by);",
                     param: new
                     {
                         in_user_name = user.UserName,
@@ -49,11 +33,9 @@ namespace Findox.Api.Data.Repositories
                         in_password_hash = user.PasswordHash,
                         in_password_salt = user.PasswordSalt,
                         in_role_id = user.RoleId,
-                        in_enabled = user.Deleted,
+                        in_deleted = user.Deleted,
                         in_created_date = user.CreatedDate,
-                        in_created_by = user.CreatedBy,
-                        in_updated_date = user.UpdatedDate,
-                        in_updated_by = user.UpdatedBy
+                        in_created_by = user.CreatedBy
                     },
                     commandType: CommandType.Text);
 
@@ -78,34 +60,116 @@ namespace Findox.Api.Data.Repositories
             }
         }
 
-        public Task LinkGroupAsync(UserGroupEntity userGroupEntity)
+        public async Task LinkGroupAsync(UserGroupEntity userGroupEntity)
         {
-            throw new NotImplementedException();
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                await connection.ExecuteScalarAsync(@"
+                    SELECT fn_users_link_group(@in_user_id, @in_group_id, @in_grouped_date, @in_grouped_by);",
+                    param: new
+                    {
+                        in_user_id = userGroupEntity.UserId,
+                        in_group_id = userGroupEntity.GroupId,
+                        in_grouped_date = userGroupEntity.GroupedDate,
+                        in_grouped_by = userGroupEntity.GroupedBy,
+                    },
+                    commandType: CommandType.Text);
+            }
         }
 
-        public Task<IEnumerable<UserResponse>> GetAllPaginatedAsync(UserGetAllPaginatedRequest request)
+        public async Task<IEnumerable<UserResponse>> GetAllPaginatedAsync(UserGetAllPaginatedRequest request)
         {
-            throw new NotImplementedException();
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                var results = await connection.QueryAsync<UserResponse>("SELECT * FROM fn_users_get_all_paginated(@in_limit, @in_offset, @in_filter_text)",
+                    param: new
+                    {
+                        in_limit = request.Limit,
+                        in_offset = request.Offset,
+                        in_filter_text = $"%{request.FilterText.Trim()}%"
+                    },
+                    commandType: CommandType.Text);
+
+                return results;
+            }
         }
 
-        public Task<int[]> GetUserGroupsAsync(int id)
+        public async Task<int[]> GetUserGroupsAsync(int id)
         {
-            throw new NotImplementedException();
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                var results = await connection.QueryAsync<int>("SELECT * FROM fn_users_get_user_groups(@in_user_id)",
+                    param: new
+                    {
+                        in_user_id = id
+                    },
+                    commandType: CommandType.Text);
+
+                return results.ToArray();
+            }
         }
 
-        public Task UnlinkGroupAsync(int userId, IEnumerable<int> groupsToUnlink)
+        public async Task UnlinkGroupAsync(int userId, IEnumerable<int> groupsToUnlink)
         {
-            throw new NotImplementedException();
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                await connection.ExecuteScalarAsync(@"
+                    SELECT fn_users_unlink_group(@in_user_id, @in_group_id);",
+                    param: new
+                    {
+                        in_user_id = userId,
+                        in_group_id = groupsToUnlink
+                    },
+                    commandType: CommandType.Text);
+            }
         }
 
-        public Task<UserEntity> GetAsync(int id)
+        public async Task<UserEntity> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                var results = await connection.QueryAsync<UserEntity>("SELECT * FROM fn_users_get(@in_user_id)",
+                    param: new
+                    {
+                        in_user_id = id
+                    },
+                    commandType: CommandType.Text);
+
+                return results?.FirstOrDefault(a => a.UserId == id);
+            }
         }
 
-        public Task<bool> UpdateAsync(UserEntity groupEntity)
+        public async Task<bool> UpdateAsync(UserEntity user)
         {
-            throw new NotImplementedException();
+            using (var connection = new NpgsqlConnection(configurations.ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                user.UserId = await connection.ExecuteScalarAsync<int>(@"
+                    SELECT fn_users_update(@in_user_name, @in_email, @in_role_id, @in_deleted, @in_updated_date, @in_updated_by);",
+                    param: new
+                    {
+                        in_user_name = user.UserName,
+                        in_email = user.Email,
+                        in_role_id = user.RoleId,
+                        in_deleted = user.Deleted,
+                        in_updated_date = user.UpdatedDate,
+                        in_updated_by = user.UpdatedBy
+                    },
+                    commandType: CommandType.Text);
+
+                return true;
+            }
         }
     }
 }

@@ -19,8 +19,8 @@
         /// <summary>
         /// It update one single row accordingly to id
         /// </summary>
-        /// <param name="groupEntity"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(T groupEntity);
+        Task<bool> UpdateAsync(T entity);
     }
 }

@@ -1,6 +1,6 @@
-﻿using Findox.Api.Data.Extensions;
+﻿using Dapper;
+using Findox.Api.Data.Extensions;
 using Findox.Api.Domain;
-using Findox.Api.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,7 +20,13 @@ namespace Findox.Api.CrossCutting.DependencyInjection
 
             services.AddScoped<IDatabaseAccess, DatabaseAccess>();
 
-            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+            ConfigureDapper();
+        }
+
+        private static void ConfigureDapper()
+        {
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
+            SqlMapper.AddTypeHandler(new GenericArrayHandler<int>());
         }
     }
 }
