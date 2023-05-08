@@ -23,6 +23,7 @@ BEGIN
 			updated_date,
 			updated_by
 		FROM user_groups
+		WHERE deleted = FALSE
 		WHERE group_id = ANY(in_group_id);
 END
 $BODY$;

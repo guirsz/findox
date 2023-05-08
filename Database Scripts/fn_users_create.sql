@@ -17,5 +17,5 @@ AS $BODY$
 
 $BODY$;
 
-ALTER FUNCTION public.fn_users_create(character varying, character varying, bytea, bytea, integer, boolean, timestamp without time zone, integer, timestamp without time zone, integer)
+ALTER FUNCTION public.fn_users_create(character varying, character varying, bytea, bytea, integer, boolean, timestamp without time zone, integer)
     OWNER TO postgres;

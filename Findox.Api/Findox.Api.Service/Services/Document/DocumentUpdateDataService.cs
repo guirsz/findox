@@ -72,7 +72,7 @@ namespace Findox.Api.Service.Services.Document
             var groupsToRemove = document.GrantedGroups.Where(a => request.GrantedGroups.Any(b => b == a) == false);
             foreach (var groupIdToRemove in groupsToRemove)
             {
-                await documentRepository.RemoveAccessToUserAsync(id, groupIdToRemove);
+                await documentRepository.RemoveAccessToGroupAsync(id, groupIdToRemove);
             }
         }
 

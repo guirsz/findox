@@ -12,6 +12,7 @@ BEGIN
 			group_id,
 			group_name
 		FROM groups
+		WHERE deleted = FALSE
 		ORDER BY group_name;
 END
 $BODY$;

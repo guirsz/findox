@@ -11,6 +11,7 @@ namespace Findox.Api.Domain.Interfaces.Repositories
         Task<DocumentResponse> GetWithGroupsAsync(Guid id);
         Task GrantAccessToGroupAsync(GrantAccessGroupEntity grantAccessGroupEntity);
         Task GrantAccessToUserAsync(GrantAccessUserEntity grantAccessUserEntity);
+        Task RemoveAccessToGroupAsync(Guid id, int groupId);
         Task RemoveAccessToUserAsync(Guid id, int userId);
     }
 }

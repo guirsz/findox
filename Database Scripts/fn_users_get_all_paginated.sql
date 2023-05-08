@@ -21,7 +21,9 @@ BEGIN
 			role_id,
 			array(select user_groups.group_id from user_groups where users.user_id = user_groups.user_id) as groups
 		FROM users
-		WHERE user_name ILIKE in_filter_text 
+		WHERE 
+			user_name ILIKE in_filter_text 
+			AND deleted = FALSE
 		ORDER BY user_name
 		LIMIT in_limit OFFSET in_offset;
 END
