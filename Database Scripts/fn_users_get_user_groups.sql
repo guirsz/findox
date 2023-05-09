@@ -7,10 +7,10 @@ AS $BODY$
 BEGIN
 	RETURN QUERY 
 		SELECT 
-			group_id
+			user_groups.group_id
 		FROM user_groups
 		INNER JOIN groups ON user_groups.group_id = groups.group_id AND groups.deleted = FALSE
-		WHERE user_id = in_user_id;
+		WHERE user_groups.user_id = in_user_id;
 END
 $BODY$;
 

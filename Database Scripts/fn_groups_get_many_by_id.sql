@@ -22,9 +22,9 @@ BEGIN
 			created_by, 	
 			updated_date,
 			updated_by
-		FROM user_groups
+		FROM groups
 		WHERE deleted = FALSE
-		WHERE group_id = ANY(in_group_id);
+		AND group_id = ANY(in_group_id);
 END
 $BODY$;
 

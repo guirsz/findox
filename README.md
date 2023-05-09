@@ -20,3 +20,7 @@ Password: guilherme.souza
 **Regular User**
 Email: kimberly.owen@missionresourcing.com
 Password: kimberly.owen
+
+###### Postman collection 
+Added the postman collection file in root directory 
+- Findox API.postman_collection.json
