@@ -26,7 +26,8 @@ BEGIN
 					inner join groups on groups.group_id = grant_access_groups.group_id and groups.deleted = false
 					where documents.document_id = grant_access_groups.document_id) as granted_groups
 		FROM documents
-		WHERE document_id = in_document_id;
+		WHERE document_id = in_document_id
+		AND deleted = FALSE;
 END
 $BODY$;
 

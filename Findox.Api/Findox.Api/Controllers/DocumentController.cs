@@ -13,7 +13,6 @@ namespace Findox.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
     public class DocumentController : AuthenticatedUserControllerBase
     {
         private readonly IDocumentUploadService uploadService;
@@ -35,7 +34,7 @@ namespace Findox.Api.Controllers
 
         [Authorize("RegularUser")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id, [FromServices] IDocumentGetService service)
+        public async Task<IActionResult> GetById(Guid id, [FromServices] IDocumentGetService service)
         {
             DocumentResponse? result = await service.RunAsync(id, RequestedBy(), UserRoleId());
 
@@ -86,13 +85,12 @@ namespace Findox.Api.Controllers
                 }
 
                 var fileSection = section.AsFileSection();
-                var trustedFileName = WebUtility.HtmlEncode(fileSection.FileName);
-                if (uploadConfigurations.FileTypeAllowed(trustedFileName) == false)
+                if (uploadConfigurations.FileTypeAllowed(fileSection.FileName) == false)
                 {
-                    return ValidationProblem($"File type from file {trustedFileName} is not allowed. These are the file types allowed: ${uploadConfigurations.AcceptedFileTypes}");
+                    return ValidationProblem($"File type from file {fileSection.FileName} is not allowed. These are the file types allowed: ${uploadConfigurations.AcceptedFileTypes}");
                 }
 
-                totalSize = totalSize + await uploadService.RunAsync(fileSection, trustedFileName, RequestedBy());
+                totalSize = totalSize + await uploadService.RunAsync(fileSection, fileSection.FileName, RequestedBy());
 
                 count++;
                 section = await reader.ReadNextSectionAsync();
@@ -124,10 +122,11 @@ namespace Findox.Api.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateData(Guid id, [FromBody] DocumentRequest request, [FromServices] IDocumentUpdateDataService service)
+        [Authorize("Admin")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] DocumentRequest request, [FromServices] IDocumentUpdateDataService service)
         {
-            (Guid documentId, string message) = await service.RunAsync(id, request, RequestedBy(), UserRoleId());
+            (Guid documentId, string message) = await service.RunAsync(request, RequestedBy(), UserRoleId());
 
             if (documentId == Guid.Empty)
                 return ValidationProblem(message);
@@ -135,6 +134,7 @@ namespace Findox.Api.Controllers
             return Ok(new { documentId, message });
         }
 
+        [Authorize("Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id, [FromServices] IDocumentDeleteService service)
         {

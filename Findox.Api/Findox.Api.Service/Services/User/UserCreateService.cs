@@ -44,11 +44,9 @@ namespace Findox.Api.Service.Services.User
             var user = mapper.Map<UserEntity>(request);
             user.PasswordSalt = Argon2Hash.CreateSalt();
             user.PasswordHash = Argon2Hash.HashPassword(request.Password, user.PasswordSalt);
-            user.Deleted = true;
+            user.Deleted = false;
             user.CreatedBy = requestedBy;
             user.CreatedDate = dateTimeNow;
-            user.UpdatedBy = requestedBy;
-            user.UpdatedDate = dateTimeNow;
 
             int userId = await userRepository.InsertAsync(user);
 

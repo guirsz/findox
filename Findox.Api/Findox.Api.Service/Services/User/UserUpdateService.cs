@@ -17,11 +17,11 @@ namespace Findox.Api.Service.Services.User
             this.groupRepository = groupRepository;
         }
 
-        public async Task<(int userId, string message)> RunAsync(int id, UserUpdateRequest request, int requestedBy)
+        public async Task<(int userId, string message)> RunAsync(UserUpdateRequest request, int requestedBy)
         {
-            var userEntity = await userRepository.GetAsync(id);
+            var userEntity = await userRepository.GetAsync(request.UserId);
 
-            if (userEntity == null || userEntity.UserId == 0)
+            if (userEntity == null || userEntity.UserId == 0 || userEntity.Deleted)
             {
                 return (0, ApplicationMessages.InvalidData);
             }
@@ -46,15 +46,15 @@ namespace Findox.Api.Service.Services.User
             userEntity.Deleted = false;
 
             int[] actualGroups = await userRepository.GetUserGroupsAsync(userEntity.UserId);
-            var groupsToUnlink = actualGroups.Where(groupId => request.Groups.Contains(groupId) == false);
-            var groupsTolink = request.Groups.Where(groupId => actualGroups.Contains(groupId) == false);
+            var groupsToUnlink = actualGroups.Where(groupId => request.Groups.Contains(groupId) == false).ToArray();
+            var groupsTolink = request.Groups.Where(groupId => actualGroups.Contains(groupId) == false).ToArray();
 
             await UpdateUserAsync(requestedBy, userEntity, groupsToUnlink, groupsTolink);
 
-            return (id, ApplicationMessages.UpdatedSuccessfully);
+            return (request.UserId, ApplicationMessages.UpdatedSuccessfully);
         }
 
-        private async Task UpdateUserAsync(int requestedBy, UserEntity userEntity, IEnumerable<int> groupsToUnlink, IEnumerable<int> groupsTolink)
+        private async Task UpdateUserAsync(int requestedBy, UserEntity userEntity, int[] groupsToUnlink, int[] groupsTolink)
         {
             await userRepository.UpdateAsync(userEntity);
             await userRepository.UnlinkGroupAsync(userEntity.UserId, groupsToUnlink);

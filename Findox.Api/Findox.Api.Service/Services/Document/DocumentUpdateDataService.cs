@@ -21,7 +21,7 @@ namespace Findox.Api.Service.Services.Document
             this.uploadConfigurations = uploadConfigurations;
         }
 
-        public async Task<(Guid documentId, string message)> RunAsync(Guid id, DocumentRequest request, int requestedBy, UserRole userRole)
+        public async Task<(Guid documentId, string message)> RunAsync(DocumentRequest request, int requestedBy, UserRole userRole)
         {
             if (string.IsNullOrEmpty(request.FileName))
                 return (Guid.Empty, ApplicationMessages.InvalidData);
@@ -29,21 +29,21 @@ namespace Findox.Api.Service.Services.Document
             if (uploadConfigurations.FileTypeAllowed(request.FileName) == false)
                 return (Guid.Empty, ApplicationMessages.InvalidFileName);
 
-            var document = await documentGetService.RunAsync(id, requestedBy, userRole);
+            var document = await documentGetService.RunAsync(request.DocumentId, requestedBy, userRole);
 
             if (document == null || document.DocumentId == Guid.Empty)
                 return (Guid.Empty, ApplicationMessages.InvalidData);
 
             if (document.FileName != request.FileName)
             {
-                await UpdateDocumentDataAsync(id, request, requestedBy);
+                await UpdateDocumentDataAsync(request.DocumentId, request, requestedBy);
             }
 
-            await GrantUsersAsync(id, request, requestedBy, document);
+            await GrantUsersAsync(request.DocumentId, request, requestedBy, document);
 
-            await GrantGroupsAsync(id, request, requestedBy, document);
+            await GrantGroupsAsync(request.DocumentId, request, requestedBy, document);
 
-            return (id, ApplicationMessages.UpdatedSuccessfully);
+            return (request.DocumentId, ApplicationMessages.UpdatedSuccessfully);
         }
 
         private async Task UpdateDocumentDataAsync(Guid id, DocumentRequest request, int requestedBy)

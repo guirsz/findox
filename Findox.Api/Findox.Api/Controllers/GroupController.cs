@@ -8,7 +8,6 @@ namespace Findox.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
     public class GroupController : AuthenticatedUserControllerBase
     {
         [Authorize("RegularUser")]
@@ -32,6 +31,7 @@ namespace Findox.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize("Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] GroupCreateRequest request,
             [FromServices] IGroupCreateService service)
@@ -44,11 +44,12 @@ namespace Findox.Api.Controllers
             return Ok(new { groupId, message });
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] GroupUpdateRequest request,
+        [Authorize("Admin")]
+        [HttpPut()]
+        public async Task<IActionResult> Update([FromBody] GroupUpdateRequest request,
             [FromServices] IGroupUpdateService service)
         {
-            (int groupId, string message) = await service.RunAsync(id, request, RequestedBy());
+            (int groupId, string message) = await service.RunAsync(request, RequestedBy());
 
             if (groupId == 0)
                 return ValidationProblem(message);
@@ -56,6 +57,7 @@ namespace Findox.Api.Controllers
             return Ok(new { groupId, message });
         }
 
+        [Authorize("Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id,
             [FromServices] IGroupDeleteService service)

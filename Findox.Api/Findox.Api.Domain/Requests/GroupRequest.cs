@@ -14,14 +14,14 @@ namespace Findox.Api.Domain.Requests
         [Required]
         public int GroupId { get; set; }
         [Required]
-        [StringLength(30, MinimumLength = 3)]
+        [StringLength(100, MinimumLength = 3)]
         public string GroupName { get; set; } = string.Empty;
     }
 
     public class GroupCreateRequest
     {
         [Required]
-        [StringLength(30, MinimumLength = 3)]
+        [StringLength(100, MinimumLength = 3)]
         public string GroupName { get; set; } = string.Empty;
     }
 }

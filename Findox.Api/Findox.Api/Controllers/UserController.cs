@@ -8,9 +8,9 @@ namespace Findox.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
     public class UserController : AuthenticatedUserControllerBase
     {
+        [Authorize("Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllPaginated([FromQuery] UserGetAllPaginatedRequest query,
             [FromServices] IUserGetAllPaginatedService service)
@@ -24,6 +24,8 @@ namespace Findox.Api.Controllers
         public async Task<IActionResult> GetById(int id,
             [FromServices] IUserGetByIdService service)
         {
+            if (id == 0) id = RequestedBy();
+
             UserResponse? result = await service.RunAsync(id, RequestedBy(), UserRoleId());
 
             if (result == null || result?.UserId == 0)
@@ -32,6 +34,7 @@ namespace Findox.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize("Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserCreateRequest request,
             [FromServices] IUserCreateService service)
@@ -44,11 +47,12 @@ namespace Findox.Api.Controllers
             return Ok(new { userId, message });
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UserUpdateRequest request,
+        [Authorize("Admin")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UserUpdateRequest request,
             [FromServices] IUserUpdateService service)
         {
-            (int userId, string message) = await service.RunAsync(id, request, RequestedBy());
+            (int userId, string message) = await service.RunAsync(request, RequestedBy());
 
             if (userId == 0)
                 return ValidationProblem(message);
@@ -56,6 +60,7 @@ namespace Findox.Api.Controllers
             return Ok(new { userId, message });
         }
 
+        [Authorize("Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id,
             [FromServices] IUserDeleteService service)

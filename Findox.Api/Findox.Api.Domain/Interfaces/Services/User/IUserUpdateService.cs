@@ -4,6 +4,6 @@ namespace Findox.Api.Domain.Interfaces.Services.User
 {
     public interface IUserUpdateService
     {
-        Task<(int userId, string message)> RunAsync(int id, UserUpdateRequest request, int requestedBy);
+        Task<(int userId, string message)> RunAsync(UserUpdateRequest request, int requestedBy);
     }
 }

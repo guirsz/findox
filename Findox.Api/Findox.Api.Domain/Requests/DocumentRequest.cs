@@ -5,6 +5,8 @@ namespace Findox.Api.Domain.Requests
     public class DocumentRequest
     {
         [Required]
+        public Guid DocumentId { get; set; }
+        [Required]
         [StringLength(100, MinimumLength = 6)]
         public string FileName { get; set; } = string.Empty;
         public int[] GrantedUsers { get; set; } = new int[0];

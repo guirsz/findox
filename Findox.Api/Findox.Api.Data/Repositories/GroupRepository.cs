@@ -53,7 +53,7 @@ namespace Findox.Api.Data.Repositories
             {
                 await connection.OpenAsync();
 
-                var results = await connection.QueryAsync<GroupEntity>("SELECT * FROM fn_groups_get_by_name()",
+                var results = await connection.QueryAsync<GroupEntity>("SELECT * FROM fn_groups_get_by_name(@in_group_name)",
                     param: new
                     {
                         in_group_name = groupName
@@ -88,7 +88,7 @@ namespace Findox.Api.Data.Repositories
                 await connection.OpenAsync();
 
                 entity.GroupId = await connection.ExecuteScalarAsync<int>(@"
-                    SELECT fn_group_create (@in_group_name, @in_deleted, @in_created_date, @in_created_by);",
+                    SELECT fn_groups_create (@in_group_name, @in_deleted, @in_created_date, @in_created_by);",
                     param: new
                     {
                         in_group_name = entity.GroupName,

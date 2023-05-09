@@ -15,11 +15,11 @@ namespace Findox.Api.Service.Services.Group
             this.groupRepository = groupRepository;
         }
 
-        public async Task<(int groupId, string message)> RunAsync(int id, GroupUpdateRequest request, int requestedBy)
+        public async Task<(int groupId, string message)> RunAsync(GroupUpdateRequest request, int requestedBy)
         {
-            var groupEntity = await groupRepository.GetAsync(id);
+            var groupEntity = await groupRepository.GetAsync(request.GroupId);
 
-            if (groupEntity == null || groupEntity.GroupId == 0)
+            if (groupEntity == null || groupEntity.GroupId == 0 || groupEntity.Deleted)
             {
                 return (0, ApplicationMessages.InvalidData);
             }
@@ -37,7 +37,7 @@ namespace Findox.Api.Service.Services.Group
 
             await groupRepository.UpdateAsync(groupEntity);
 
-            return (id, ApplicationMessages.UpdatedSuccessfully);
+            return (request.GroupId, ApplicationMessages.UpdatedSuccessfully);
         }
 
         private async Task<bool> GroupNameInUse(GroupEntity groupEntity, GroupUpdateRequest request)

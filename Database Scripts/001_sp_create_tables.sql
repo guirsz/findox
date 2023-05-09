@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
 	user_id         serial PRIMARY KEY,
-	user_name	    VARCHAR ( 30 ) NOT NULL,
+	user_name	    VARCHAR ( 100 ) NOT NULL,
 	email      		VARCHAR ( 100 ) UNIQUE NOT NULL,
 	password_hash   BYTEA NOT NULL,
 	password_salt	BYTEA NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE TABLE IF NOT EXISTS groups (
 	group_id    	serial PRIMARY KEY,
-	group_name  	VARCHAR ( 30 ) UNIQUE NOT NULL,
+	group_name  	VARCHAR ( 100 ) UNIQUE NOT NULL,
 	deleted			BOOLEAN DEFAULT FALSE,
 	created_date	TIMESTAMP NOT NULL,
 	created_by 		INT,
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS user_groups (
 	CONSTRAINT  fk_user_groups_users FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 CREATE TABLE IF NOT EXISTS documents (
-	document_id		 	UUID PRIMARY KEY,
-	file_name  			VARCHAR ( 30 ) NOT NULL,
-	file_length  		BIGINT NOT NULL,
+	document_id		UUID PRIMARY KEY,
+	file_name  		VARCHAR ( 100 ) NOT NULL,
+	file_length  	BIGINT NOT NULL,
 	deleted			BOOLEAN DEFAULT FALSE,
 	created_date	TIMESTAMP NOT NULL,
 	created_by 		INT,

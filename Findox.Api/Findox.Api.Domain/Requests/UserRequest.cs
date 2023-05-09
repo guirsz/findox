@@ -15,7 +15,7 @@ namespace Findox.Api.Domain.Requests
         [Required]
         public int UserId { get; set; }
         [Required]
-        [StringLength(30, MinimumLength = 3)]
+        [StringLength(100, MinimumLength = 3)]
         public string UserName { get; set; } = string.Empty;
         [Required]
         [EmailAddress]
@@ -30,7 +30,7 @@ namespace Findox.Api.Domain.Requests
     public class UserCreateRequest
     {
         [Required]
-        [StringLength(30)]
+        [StringLength(100)]
         public string UserName { get; set; } = string.Empty;
         [Required]
         [EmailAddress]

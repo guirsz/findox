@@ -30,9 +30,15 @@ namespace Findox.Api.Service.Services.Document
                 FileLength = fileSection.FileStream.Length,
                 CreatedBy = requestedBy,
                 CreatedDate = DateTime.Now,
-                UpdatedBy = requestedBy,
-                UpdatedDate = DateTime.Now,
                 Deleted = false
+            });
+
+            await repository.GrantAccessToUserAsync(new GrantAccessUserEntity()
+            {
+                UserId = requestedBy,
+                DocumentId = documentId,
+                GrantedDate = DateTime.Now,
+                GrantedBy = requestedBy
             });
 
             return fileSection.FileStream.Length;

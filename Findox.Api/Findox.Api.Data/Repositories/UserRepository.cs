@@ -115,7 +115,7 @@ namespace Findox.Api.Data.Repositories
             }
         }
 
-        public async Task UnlinkGroupAsync(int userId, IEnumerable<int> groupsToUnlink)
+        public async Task UnlinkGroupAsync(int userId, int[] groupsToUnlink)
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
@@ -126,7 +126,7 @@ namespace Findox.Api.Data.Repositories
                     param: new
                     {
                         in_user_id = userId,
-                        in_group_id = groupsToUnlink
+                        in_group_id = groupsToUnlink.ToArray()
                     },
                     commandType: CommandType.Text);
             }
@@ -155,10 +155,11 @@ namespace Findox.Api.Data.Repositories
             {
                 await connection.OpenAsync();
 
-                user.UserId = await connection.ExecuteScalarAsync<int>(@"
-                    SELECT fn_users_update(@in_user_name, @in_email, @in_role_id, @in_deleted, @in_updated_date, @in_updated_by);",
+                await connection.ExecuteScalarAsync<int>(@"
+                    SELECT fn_users_update(@in_user_id, @in_user_name, @in_email, @in_role_id, @in_deleted, @in_updated_date, @in_updated_by);",
                     param: new
                     {
+                        in_user_id = user.UserId,
                         in_user_name = user.UserName,
                         in_email = user.Email,
                         in_role_id = user.RoleId,

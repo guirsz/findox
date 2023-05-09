@@ -87,7 +87,7 @@ namespace Findox.Api.Data.Repositories
                 await connection.OpenAsync();
 
                 await connection.ExecuteScalarAsync(@"
-                    SELECT fb_documents_grant_access_to_group(@in_document_id, @in_user_id, @in_granted_date, @in_granted_by);",
+                    SELECT fb_documents_grant_access_to_user(@in_document_id, @in_user_id, @in_granted_date, @in_granted_by);",
                     param: new
                     {
                         in_document_id = entity.DocumentId,
@@ -184,7 +184,7 @@ namespace Findox.Api.Data.Repositories
             {
                 await connection.OpenAsync();
 
-                var results = await connection.QueryAsync<DocumentEntity>("SELECT * FROM fn_users_get(@fn_documents_get)",
+                var results = await connection.QueryAsync<DocumentEntity>("SELECT * FROM fn_documents_get(@in_document_id)",
                     param: new
                     {
                         in_document_id = id

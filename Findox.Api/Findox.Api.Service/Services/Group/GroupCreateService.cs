@@ -37,9 +37,7 @@ namespace Findox.Api.Service.Services.Group
             {
                 GroupName = request.GroupName,
                 CreatedBy = requestedBy,
-                UpdatedBy = requestedBy,
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now,
             });
 
             return (groupId, ApplicationMessages.CreatedSuccessfully);
