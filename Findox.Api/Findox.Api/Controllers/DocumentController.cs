@@ -124,7 +124,7 @@ namespace Findox.Api.Controllers
 
         [Authorize("Admin")]
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] DocumentRequest request, [FromServices] IDocumentUpdateDataService service)
+        public async Task<IActionResult> Update([FromBody] DocumentRequest request, [FromServices] IDocumentUpdateService service)
         {
             (Guid documentId, string message) = await service.RunAsync(request, RequestedBy(), UserRoleId());
 

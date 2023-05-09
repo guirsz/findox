@@ -20,6 +20,9 @@ namespace Findox.Api.Service.Services.Document
             if (documentEntity == null || documentEntity.DocumentId == Guid.Empty)
                 return (false, ApplicationMessages.InvalidData);
 
+            if (documentEntity.Deleted)
+                return (true, ApplicationMessages.RemovedSuccessfully);
+
             documentEntity.Deleted = true;
             documentEntity.UpdatedDate = DateTime.Now;
             documentEntity.UpdatedBy = requestedBy;

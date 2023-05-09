@@ -8,13 +8,13 @@ using Findox.Api.Domain.Security;
 
 namespace Findox.Api.Service.Services.Document
 {
-    public class DocumentUpdateDataService : IDocumentUpdateDataService
+    public class DocumentUpdateService : IDocumentUpdateService
     {
         private readonly IDocumentGetService documentGetService;
         private readonly IDocumentRepository documentRepository;
         private readonly UploadConfigurations uploadConfigurations;
 
-        public DocumentUpdateDataService(IDocumentGetService documentGetService, IDocumentRepository documentRepository, UploadConfigurations uploadConfigurations)
+        public DocumentUpdateService(IDocumentGetService documentGetService, IDocumentRepository documentRepository, UploadConfigurations uploadConfigurations)
         {
             this.documentGetService = documentGetService;
             this.documentRepository = documentRepository;

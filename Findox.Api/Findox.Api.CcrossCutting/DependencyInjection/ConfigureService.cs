@@ -43,7 +43,7 @@ namespace Findox.Api.CrossCutting.DependencyInjection
             services.AddTransient<IDocumentDownloadService, DocumentDownloadService>();
             services.AddTransient<IDocumentGetAllService, DocumentGetAllService>();
             services.AddTransient<IDocumentGetService, DocumentGetService>();
-            services.AddTransient<IDocumentUpdateDataService, DocumentUpdateDataService>();
+            services.AddTransient<IDocumentUpdateService, DocumentUpdateService>();
             services.AddTransient<IDocumentUploadService, DocumentUploadService>();
         }
     }
