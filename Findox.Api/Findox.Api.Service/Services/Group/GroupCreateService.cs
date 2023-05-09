@@ -17,7 +17,7 @@ namespace Findox.Api.Service.Services.Group
 
         public async Task<(int groupId, string message)> RunAsync(GroupCreateRequest request, int requestedBy)
         {
-            var groupEntity = await groupRepository.GetByName(request.GroupName);
+            var groupEntity = await groupRepository.GetByNameAsync(request.GroupName);
 
             if (groupEntity != null && !groupEntity.Deleted)
             {

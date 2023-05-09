@@ -5,8 +5,8 @@ namespace Findox.Api.Domain.Interfaces.Repositories
 {
     public interface IGroupRepository : ICrudRepository<GroupEntity>
     {
-        Task<IEnumerable<GroupResponse>> GetAllAsync();
-        Task<GroupEntity> GetByName(string groupName);
-        Task<IEnumerable<GroupEntity>> GetManyByIdAsync(int[] groups);
+        Task<GroupResponse[]> GetAllAsync();
+        Task<GroupEntity> GetByNameAsync(string groupName);
+        Task<int> GetCountAsync(int[] groups);
     }
 }

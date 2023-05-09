@@ -18,7 +18,7 @@ namespace Findox.Api.Data.Repositories
             configurations = databaseConfigurations;
         }
 
-        public async Task<IEnumerable<GroupResponse>> GetAllAsync()
+        public async Task<GroupResponse[]> GetAllAsync()
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
@@ -26,7 +26,7 @@ namespace Findox.Api.Data.Repositories
 
                 var results = await connection.QueryAsync<GroupResponse>("SELECT * FROM fn_groups_get_all()", commandType: CommandType.Text);
 
-                return results;
+                return results.ToArray();
             }
         }
 
@@ -47,7 +47,7 @@ namespace Findox.Api.Data.Repositories
             }
         }
 
-        public async Task<GroupEntity> GetByName(string groupName)
+        public async Task<GroupEntity> GetByNameAsync(string groupName)
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
@@ -64,20 +64,20 @@ namespace Findox.Api.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<GroupEntity>> GetManyByIdAsync(int[] groups)
+        public async Task<int> GetCountAsync(int[] groups)
         {
             using (var connection = new NpgsqlConnection(configurations.ConnectionString))
             {
                 await connection.OpenAsync();
 
-                var results = await connection.QueryAsync<GroupEntity>("SELECT * FROM fn_groups_get_many_by_id(@in_group_id)",
+                var results = await connection.QueryAsync<int>("SELECT fn_groups_get_count(@in_group_id)",
                     param: new
                     {
                         in_group_id = groups
                     },
                     commandType: CommandType.Text);
 
-                return results;
+                return results.FirstOrDefault();
             }
         }
 

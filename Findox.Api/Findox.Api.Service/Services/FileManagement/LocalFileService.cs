@@ -1,7 +1,7 @@
 ﻿using Findox.Api.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Findox.Api.Service.Services
+namespace Findox.Api.Service.Services.FileManagement
 {
     public class LocalFileService : IFileService
     {

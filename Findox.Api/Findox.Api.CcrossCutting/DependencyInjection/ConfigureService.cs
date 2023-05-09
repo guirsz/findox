@@ -4,6 +4,7 @@ using Findox.Api.Domain.Interfaces.Services.Group;
 using Findox.Api.Domain.Interfaces.Services.User;
 using Findox.Api.Service.Services;
 using Findox.Api.Service.Services.Document;
+using Findox.Api.Service.Services.FileManagement;
 using Findox.Api.Service.Services.Group;
 using Findox.Api.Service.Services.User;
 using Microsoft.Extensions.DependencyInjection;

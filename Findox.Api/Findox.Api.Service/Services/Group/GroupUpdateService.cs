@@ -44,7 +44,7 @@ namespace Findox.Api.Service.Services.Group
         {
             if (groupEntity.GroupName != request.GroupName)
             {
-                var groupByName = await groupRepository.GetByName(request.GroupName);
+                var groupByName = await groupRepository.GetByNameAsync(request.GroupName);
                 if (groupByName != null && groupByName.GroupId > 0)
                 {
                     return true;

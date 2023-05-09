@@ -1,5 +1,4 @@
-﻿using Findox.Api.Domain.Entities;
-using Findox.Api.Domain.Helpers;
+﻿using Findox.Api.Domain.Helpers;
 using Findox.Api.Domain.Interfaces.Repositories;
 using Findox.Api.Domain.Interfaces.Services.User;
 

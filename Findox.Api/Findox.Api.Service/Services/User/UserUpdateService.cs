@@ -87,8 +87,8 @@ namespace Findox.Api.Service.Services.User
         {
             if (requestedGroups.Any())
             {
-                IEnumerable<GroupEntity> groups = await groupRepository.GetManyByIdAsync(requestedGroups);
-                if (groups.Count() != requestedGroups.Count())
+                var count = await groupRepository.GetCountAsync(requestedGroups);
+                if (count != requestedGroups.Count())
                 {
                     return true;
                 }
