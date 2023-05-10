@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_users_get(
 	in_user_id integer)
     RETURNS users

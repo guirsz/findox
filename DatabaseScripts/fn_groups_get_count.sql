@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_groups_get_count(
 	in_group_id integer[])
     RETURNS integer

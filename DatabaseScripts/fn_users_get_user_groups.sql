@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_users_get_user_groups(
 	in_user_id integer)
     RETURNS TABLE (group_id integer)

@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_documents_update(
 	in_document_id  	uuid,
 	in_file_name  		character varying,

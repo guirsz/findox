@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_documents_grant_access_to_group(
 	in_document_id  	uuid,
 	in_group_id  		integer,

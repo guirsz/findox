@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_users_create(
 	in_user_name character varying,
 	in_email character varying,

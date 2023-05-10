@@ -1,6 +1,4 @@
--- FUNCTION: public.fn_users_initialize(integer, character varying, character varying, bytea, bytea)
-
--- DROP FUNCTION IF EXISTS public.fn_users_initialize(integer, character varying, character varying, bytea, bytea);
+\c findoxdb;
 
 CREATE OR REPLACE FUNCTION public.fn_users_initialize(
 	in_role_id integer,

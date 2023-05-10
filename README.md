@@ -1,14 +1,13 @@
 # findox
 
-###### Commands used to run PostgreSQL locally in a docker container
+###### Docker compose
+To create database, tables and functions, run the docker-compose.yml file using the command bellow in the same directory from that file.
 ```
-docker pull postgres
-docker run -d -p 5432:5432 --name container-postgresdb -e POSTGRES_PASSWORD=containerPGdb postgres
-docker exec -it container-postgresdb bash
-psql -U postgres
-CREATE DATABASE findoxdb;
+docker-compose up
 ```
+
 ###### Default available users by default
+When starting the application, the following users will be created:
 **Admin**
 Email: brian@findox.com
 Password: brian.bentow
@@ -22,7 +21,7 @@ Email: kimberly.owen@missionresourcing.com
 Password: kimberly.owen
 
 ###### Postman collection 
-Added the postman collection file in root directory 
+Import and use postman collection file in root directory to facilitate your calls
 - Findox API.postman_collection.json
 
 ###### Knowledge presented
@@ -31,10 +30,11 @@ Added the postman collection file in root directory
 - Password hashing accordingly to OWASP Top 10
 - Dependency Injection
 - Streaming upload
-- Docker
+- Docker compose
 - Aws S3
 - Database modeling
 - PostgreSQL
+- Stored Procedures and Functions
 - Mapper
 - Dapper
 - Tests using xUnit

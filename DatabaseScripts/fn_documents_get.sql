@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_documents_get(
 	in_document_id uuid)
     RETURNS documents

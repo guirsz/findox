@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_users_update(
 	in_user_id integer,
 	in_user_name character varying,

@@ -16,7 +16,6 @@ namespace Findox.Api.CrossCutting.DependencyInjection
     {
         public static void ConfigureServices(this IServiceCollection services, bool isDevelopment)
         {
-            services.AddTransient<IInitDatabaseService, InitDatabaseService>();
             services.AddTransient<IAuthService, AuthService>();
 
             services.AddTransient<IUserCreateService, UserCreateService>();

@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_groups_get(
 	in_group_id integer)
     RETURNS groups

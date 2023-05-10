@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_groups_create(
 	in_group_name character varying,
 	in_deleted boolean,

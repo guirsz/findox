@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_groups_get_by_name(
 	in_group_name character varying)
     RETURNS groups

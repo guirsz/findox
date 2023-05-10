@@ -11,9 +11,9 @@ namespace Findox.Api.Data.Repositories
     {
         private NpgsqlConnection connection;
 
-        public InitDatabaseRepository(IDatabaseAccess database)
+        public InitDatabaseRepository(PostgresDataSource postgresDataSource)
         {
-            this.connection = database.Connection();
+            this.connection = postgresDataSource.DataSource.OpenConnection();
         }
 
         public async Task InitializeAsync()

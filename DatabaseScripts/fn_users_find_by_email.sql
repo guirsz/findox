@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_users_find_by_email(
 	user_email character varying)
     RETURNS users

@@ -1,4 +1,5 @@
 using Findox.Api.CrossCutting.DependencyInjection;
+using Findox.Api.Domain.Interfaces.Services;
 using Findox.Api.Middlewares;
 using Microsoft.AspNetCore.HttpLogging;
 using System.Text.Json.Serialization;
@@ -56,5 +57,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHealthChecks("/health");
+
+await app.Services.InitializeDatabase();
 
 app.Run();

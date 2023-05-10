@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_users_link_group(
 	in_user_id integer,
 	in_group_id integer,

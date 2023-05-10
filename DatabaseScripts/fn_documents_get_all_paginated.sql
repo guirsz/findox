@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_documents_get_all_paginated(
 	in_limit integer,
 	in_offset integer,

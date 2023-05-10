@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_groups_update(
 	in_group_id integer,
 	in_group_name character varying,

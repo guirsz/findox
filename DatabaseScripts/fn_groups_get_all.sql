@@ -1,3 +1,5 @@
+\c findoxdb;
+
 CREATE OR REPLACE FUNCTION public.fn_groups_get_all()
 	RETURNS TABLE (
 		group_id integer,
