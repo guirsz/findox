@@ -8,6 +8,7 @@ docker-compose up
 
 ###### Default available users by default
 When starting the application, the following users will be created:
+
 **Admin**
 Email: brian@findox.com
 Password: brian.bentow
