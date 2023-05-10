@@ -24,3 +24,17 @@ Password: kimberly.owen
 ###### Postman collection 
 Added the postman collection file in root directory 
 - Findox API.postman_collection.json
+
+###### Knowledge presented
+- Authentication JWT 
+- Authorization
+- Password hashing accordingly to OWASP Top 10
+- Dependency Injection
+- Streaming upload
+- Docker
+- Aws S3
+- Database modeling
+- PostgreSQL
+- Mapper
+- Dapper
+- Tests using xUnit
