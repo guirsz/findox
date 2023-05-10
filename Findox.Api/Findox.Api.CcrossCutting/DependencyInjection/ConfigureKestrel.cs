@@ -16,9 +16,15 @@ namespace Findox.Api.CrossCutting.DependencyInjection
                 serverOptions.Limits.MaxRequestBodySize = null;
             });
 
+            var awsConfiguration = new AwsConfigurations();
+            new ConfigureFromConfigurationOptions<AwsConfigurations>(builder.Configuration.GetSection("AwsConfiguration")).Configure(awsConfiguration);
+            builder.Services.AddSingleton(awsConfiguration);
+
             var uploadConfigurations = new UploadConfigurations();
             new ConfigureFromConfigurationOptions<UploadConfigurations>(builder.Configuration.GetSection("UploadConfigurations")).Configure(uploadConfigurations);
             builder.Services.AddSingleton(uploadConfigurations);
+
+
             builder.Services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = uploadConfigurations.MultipartBodyLengthLimit;

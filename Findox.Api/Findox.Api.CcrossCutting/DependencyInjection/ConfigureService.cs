@@ -1,5 +1,6 @@
 ﻿using Findox.Api.Domain.Interfaces.Services;
 using Findox.Api.Domain.Interfaces.Services.Document;
+using Findox.Api.Domain.Interfaces.Services.FileManagement;
 using Findox.Api.Domain.Interfaces.Services.Group;
 using Findox.Api.Domain.Interfaces.Services.User;
 using Findox.Api.Service.Services;
@@ -45,6 +46,8 @@ namespace Findox.Api.CrossCutting.DependencyInjection
             services.AddTransient<IDocumentGetService, DocumentGetService>();
             services.AddTransient<IDocumentUpdateService, DocumentUpdateService>();
             services.AddTransient<IDocumentUploadService, DocumentUploadService>();
+
+            services.AddTransient<IAwsStorageService, AwsStorageService>();
         }
     }
 }

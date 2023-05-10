@@ -1,7 +1,7 @@
 ﻿using Findox.Api.Domain.Entities;
 using Findox.Api.Domain.Interfaces.Repositories;
-using Findox.Api.Domain.Interfaces.Services;
 using Findox.Api.Domain.Interfaces.Services.Document;
+using Findox.Api.Domain.Interfaces.Services.FileManagement;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Findox.Api.Service.Services.Document

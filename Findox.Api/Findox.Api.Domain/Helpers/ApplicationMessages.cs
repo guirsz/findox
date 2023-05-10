@@ -12,5 +12,8 @@
         public const string UserDeleted = "This user was removed, to use it you must activate it";
         public const string GroupAlreadyExists = "This group name already exists";
         public const string InvalidFileName = "Invalid file name";
+
+        public const string AccessKey = "AccessKey";
+        public const string SecretKey = "SecretKey";
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Findox.Api.Domain.Interfaces.Repositories;
-using Findox.Api.Domain.Interfaces.Services;
 using Findox.Api.Domain.Interfaces.Services.Document;
+using Findox.Api.Domain.Interfaces.Services.FileManagement;
 using Findox.Api.Domain.Responses;
 
 namespace Findox.Api.Service.Services.Document
@@ -26,6 +26,9 @@ namespace Findox.Api.Service.Services.Document
             }
 
             var streamResult = await fileService.GetFileAsync(documentEntity.DocumentId.ToString());
+
+            if (streamResult == null)
+                return null;
 
             return new DocumentDownloadResponse()
             {

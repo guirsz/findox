@@ -1,6 +1,6 @@
 ﻿using Findox.Api.Domain.Entities;
 using Findox.Api.Domain.Interfaces.Repositories;
-using Findox.Api.Domain.Interfaces.Services;
+using Findox.Api.Domain.Interfaces.Services.FileManagement;
 using Findox.Api.Service.Services.Document;
 using Moq;
 
